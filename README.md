@@ -59,42 +59,51 @@ docker run -p 8501:8501 --mount type=bind,source=${path-to-model-folder}/allmode
 
 Note that
 > -p 8501:8501 
+
 publish the container's port 8501 to host's port 8501 (Port 8500 exposed for gRPC, Port 8501 exposed for REST API)
 
 > --mount type=bind, source=... ,target=... 
+
 mount the local source folder on the container for TF serving to read the models.
 target is the model base path on the container (default /models)
 
 > -t tensorflow/serving  
+
 running a docker container with docker image "tensorflow/serving"
 
 > --model_config_file
+
 Tensorflow Serving System provides several ways to configure server [here](https://www.tensorflow.org/tfx/serving/serving_config) model_config_file is to pecify model names and paths
 
 ## Step 3: Send Request to TensorFlow Serving System with Postman and Python script
 Once container is created successfully, we could check container status via
 > docker ps -a
+
 ![status](./materials/ps.png)
 
 ### Send request to regression model via Postman
 [TensorFlow Serving API](https://www.tensorflow.org/tfx/serving/api_rest)
-REST API Request format
+Request format
 > http://host:port/v1/models/${MODEL_NAME[/versions/${MODEL_VERSION}]:(classify|regress)
 
 - check model "saved_model_resnet_v2" status by sending get request as below 
 > GET http://localhost:8501/v1/models/saved_model_resnet_v2
+
 ![model status](./materials/model_status.png)
 
 - get metadata of model by sending get request
 > GET http://localhost:8501/v1/models/saved_model_half_plus_three/metadata
+
 ![model metadata](./materials/model_metadata.png)
 
 - get prediction result
 > POST http://localhost:8501/v1/models/saved_model_half_plus_three:predict
+
 ![predict result](./materials/predict_result.png)
 
 - get regression result
 > POST http://localhost:8501/v1/models/saved_model_half_plus_three:regress
+
 ![regression result](./materials/regression_result.png)
 
 
