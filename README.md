@@ -7,8 +7,10 @@ TensorFlow provides an easy way to deploy well-trained model on Docker. To do th
 [TODO]
 
 
-## Step 1: Convert well-trained model to SavedModel
+## Step 1: Convert well-trained model to SavedModel format
 [TODO]
+[migrate from Keras](https://www.tensorflow.org/guide/saved_model)
+[tensorflow checkpoint](https://www.tensorflow.org/guide/checkpoint)
 
 
 ## Step 2: Deploy SavedModel on TensorFlow Serving System with Docker
@@ -16,30 +18,7 @@ TensorFlow provides an easy way to deploy well-trained model on Docker. To do th
 ### Materials required: 
 Note that below pretrained models are download from tensorflow github
 - Model: folder of my models is organized below:
-allmodels
-├── models.config
-├── saved_model_half_plus_three
-│   └── 00000123
-│       ├── assets
-│       │   └── foo.txt
-│       ├── saved_model.pb
-│       └── variables
-│           ├── variables.data-00000-of-00001
-│           └── variables.index
-├── saved_model_half_plus_two_cpu
-│   └── 00000123
-│       ├── assets
-│       │   └── foo.txt
-│       ├── saved_model.pb
-│       └── variables
-│           ├── variables.data-00000-of-00001
-│           └── variables.index
-└── saved_model_resnet_v2
-    └── 1538687457
-        ├── saved_model.pb
-        └── variables
-            ├── variables.data-00000-of-00001
-            └── variables.index
+![tree](./materials/tree.png)
 
 - Configuration file for serving multi-models: models.config
 ```
@@ -108,15 +87,15 @@ REST API Request format
 
 - get metadata of model by sending get request
 > GET http://localhost:8501/v1/models/saved_model_half_plus_three/metadata
-![model metadata](./materials/model_metadata)
+![model metadata](./materials/model_metadata.png)
 
 - get prediction result
 > POST http://localhost:8501/v1/models/saved_model_half_plus_three:predict
-![predict result](./materials/predict_result)
+![predict result](./materials/predict_result.png)
 
 - get regression result
 > POST http://localhost:8501/v1/models/saved_model_half_plus_three:regress
-![regression result](./materials/regression_result)
+![regression result](./materials/regression_result.png)
 
 
 ### Send request along with image to classification model via Python Script
@@ -150,7 +129,7 @@ cd path-to-model
 saved_model_cli show --dir $(mypath)/allmodels/ssaved_model_half_plus_three/00000123 --all
 # result as below
 ```
-![model_io](./materials/)
+![model_io](./materials/model_io.png)
 
 ## Addtional Information
 
